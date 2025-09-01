@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - College Placement Training Portal</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #007bff;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --dark: #343a40;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .register-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            padding: 10px 0;
+            font-weight: 500;
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .password-toggle {
+            cursor: pointer;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary);
+        }
+        
+        .progress-bar {
+            background-color: var(--primary);
+        }
+        
+        .requirement-list {
+            font-size: 0.85rem;
+        }
+        
+        .requirement-list i {
+            width: 20px;
+        }
+        
+        .valid-requirement {
+            color: var(--success);
+        }
+        
+        .invalid-requirement {
+            color: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-7">
+                <div class="card register-card">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold">Create Your Account</h2>
+                            <p class="text-muted">Join thousands of students preparing for placements</p>
+                        </div>
+                        
+                        <form id="registerForm" class="needs-validation" novalidate>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="fullName" class="form-label">Full Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
+                                    <div class="invalid-feedback" id="fullNameError">Please provide your full name.</div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                                    <div class="invalid-feedback" id="emailError">Please provide a valid email address.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+                                    <div class="invalid-feedback" id="phoneError">Please provide a valid phone number.</div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="college" class="form-label">College Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="college" placeholder="Enter your college name" required>
+                                    <div class="invalid-feedback" id="collegeError">Please provide your college name.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                                    <div class="position-relative">
+                                        <input type="password" class="form-control" id="password" placeholder="Create a password" required>
+                                        <span class="password-toggle" id="togglePassword">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                        <div class="invalid-feedback" id="passwordError">Password must meet all requirements.</div>
+                                    </div>
+                                    
+                                    <div class="mt-2">
+                                        <div class="progress mb-2" style="height: 5px;">
+                                            <div class="progress-bar" id="passwordStrength" role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        
+                                        <ul class="list-unstyled requirement-list">
+                                            <li class="mb-1" id="lengthRequirement">
+                                                <i class="fas fa-circle-notch"></i>
+                                                <span>At least 8 characters</span>
+                                            </li>
+                                            <li class="mb-1" id="uppercaseRequirement">
+                                                <i class="fas fa-circle-notch"></i>
+                                                <span>One uppercase letter</span>
+                                            </li>
+                                            <li class="mb-1" id="numberRequirement">
+                                                <i class="fas fa-circle-notch"></i>
+                                                <span>One number</span>
+                                            </li>
+                                            <li class="mb-1" id="specialRequirement">
+                                                <i class="fas fa-circle-notch"></i>
+                                                <span>One special character</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="confirmPassword" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                    <div class="position-relative">
+                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password" required>
+                                        <span class="password-toggle" id="toggleConfirmPassword">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                        <div class="invalid-feedback" id="confirmPasswordError">Passwords do not match.</div>
+                                    </div>
+                                    <div class="mt-4 pt-3" id="passwordMatchStatus"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="terms" required>
+                                    <label class="form-check-label" for="terms">
+                                        I agree to the <a href="#" class="text-decoration-none">Terms and Conditions</a> and <a href="#" class="text-decoration-none">Privacy Policy</a>
+                                    </label>
+                                    <div class="invalid-feedback" id="termsError">You must agree before submitting.</div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 mb-3">Create Account</button>
+                            
+                            <div class="text-center">
+                                <p class="mb-0">Already have an account? <a href="login.html" class="text-decoration-none">Sign in</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <p class="text-muted small">By registering, you agree to our Terms of Service and Privacy Policy. You may receive email notifications from us and can opt out at any time.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('registerForm');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const togglePassword = document.getElementById('togglePassword');
+            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+            
+            // Password visibility toggle
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.querySelector('i').classList.toggle('fa-eye');
+                this.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+            
+            toggleConfirmPassword.addEventListener('click', function() {
+                const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                confirmPasswordInput.setAttribute('type', type);
+                this.querySelector('i').classList.toggle('fa-eye');
+                this.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+            
+            // Password strength checker
+            passwordInput.addEventListener('input', function() {
+                checkPasswordStrength(this.value);
+                checkPasswordMatch();
+            });
+            
+            confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+            
+            function checkPasswordStrength(password) {
+                let strength = 0;
+                const requirements = {
+                    length: false,
+                    uppercase: false,
+                    number: false,
+                    special: false
+                };
+                
+                // Check length
+                if (password.length >= 8) {
+                    strength += 25;
+                    requirements.length = true;
+                    document.getElementById('lengthRequirement').classList.add('valid-requirement');
+                    document.getElementById('lengthRequirement').classList.remove('invalid-requirement');
+                    document.getElementById('lengthRequirement').querySelector('i').className = 'fas fa-check-circle';
+                } else {
+                    document.getElementById('lengthRequirement').classList.remove('valid-requirement');
+                    document.getElementById('lengthRequirement').classList.add('invalid-requirement');
+                    document.getElementById('lengthRequirement').querySelector('i').className = 'fas fa-circle-notch';
+                }
+                
+                // Check uppercase letters
+                if (/[A-Z]/.test(password)) {
+                    strength += 25;
+                    requirements.uppercase = true;
+                    document.getElementById('uppercaseRequirement').classList.add('valid-requirement');
+                    document.getElementById('uppercaseRequirement').classList.remove('invalid-requirement');
+                    document.getElementById('uppercaseRequirement').querySelector('i').className = 'fas fa-check-circle';
+                } else {
+                    document.getElementById('uppercaseRequirement').classList.remove('valid-requirement');
+                    document.getElementById('uppercaseRequirement').classList.add('invalid-requirement');
+                    document.getElementById('uppercaseRequirement').querySelector('i').className = 'fas fa-circle-notch';
+                }
+                
+                // Check numbers
+                if (/[0-9]/.test(password)) {
+                    strength += 25;
+                    requirements.number = true;
+                    document.getElementById('numberRequirement').classList.add('valid-requirement');
+                    document.getElementById('numberRequirement').classList.remove('invalid-requirement');
+                    document.getElementById('numberRequirement').querySelector('i').className = 'fas fa-check-circle';
+                } else {
+                    document.getElementById('numberRequirement').classList.remove('valid-requirement');
+                    document.getElementById('numberRequirement').classList.add('invalid-requirement');
+                    document.getElementById('numberRequirement').querySelector('i').className = 'fas fa-circle-notch';
+                }
+                
+                // Check special characters
+                if (/[^A-Za-z0-9]/.test(password)) {
+                    strength += 25;
+                    requirements.special = true;
+                    document.getElementById('specialRequirement').classList.add('valid-requirement');
+                    document.getElementById('specialRequirement').classList.remove('invalid-requirement');
+                    document.getElementById('specialRequirement').querySelector('i').className = 'fas fa-check-circle';
+                } else {
+                    document.getElementById('specialRequirement').classList.remove('valid-requirement');
+                    document.getElementById('specialRequirement').classList.add('invalid-requirement');
+                    document.getElementById('specialRequirement').querySelector('i').className = 'fas fa-circle-notch';
+                }
+                
+                // Update progress bar
+                document.getElementById('passwordStrength').style.width = strength + '%';
+                
+                // Update progress bar color
+                if (strength < 50) {
+                    document.getElementById('passwordStrength').classList.add('bg-danger');
+                    document.getElementById('passwordStrength').classList.remove('bg-warning', 'bg-success');
+                } else if (strength < 100) {
+                    document.getElementById('passwordStrength').classList.add('bg-warning');
+                    document.getElementById('passwordStrength').classList.remove('bg-danger', 'bg-success');
+                } else {
+                    document.getElementById('passwordStrength').classList.add('bg-success');
+                    document.getElementById('passwordStrength').classList.remove('bg-danger', 'bg-warning');
+                }
+                
+                return requirements;
+            }
+            
+            function checkPasswordMatch() {
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                const matchStatus = document.getElementById('passwordMatchStatus');
+                
+                if (confirmPassword.length === 0) {
+                    matchStatus.innerHTML = '';
+                    confirmPasswordInput.classList.remove('is-invalid', 'is-valid');
+                    return;
+                }
+                
+                if (password === confirmPassword) {
+                    matchStatus.innerHTML = '<div class="text-success small"><i class="fas fa-check-circle me-1"></i> Passwords match</div>';
+                    confirmPasswordInput.classList.remove('is-invalid');
+                    confirmPasswordInput.classList.add('is-valid');
+                } else {
+                    matchStatus.innerHTML = '<div class="text-danger small"><i class="fas fa-times-circle me-1"></i> Passwords do not match</div>';
+                    confirmPasswordInput.classList.remove('is-valid');
+                    confirmPasswordInput.classList.add('is-invalid');
+                }
+            }
+            
+            // Form validation
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Reset validation states
+                const inputs = registerForm.querySelectorAll('.form-control');
+                inputs.forEach(input => {
+                    input.classList.remove('is-invalid');
+                });
+                
+                let isValid = true;
+                
+                // Validate full name
+                const fullName = document.getElementById('fullName');
+                if (!fullName.value.trim()) {
+                    document.getElementById('fullNameError').textContent = 'Full name is required';
+                    fullName.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                // Validate email
+                const email = document.getElementById('email');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!email.value.trim() || !emailRegex.test(email.value)) {
+                    document.getElementById('emailError').textContent = 'Please enter a valid email address';
+                    email.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                // Validate phone
+                const phone = document.getElementById('phone');
+                const phoneRegex = /^[0-9]{10}$/;
+                if (!phone.value.trim() || !phoneRegex.test(phone.value)) {
+                    document.getElementById('phoneError').textContent = 'Please enter a valid 10-digit phone number';
+                    phone.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                // Validate college
+                const college = document.getElementById('college');
+                if (!college.value.trim()) {
+                    document.getElementById('collegeError').textContent = 'College name is required';
+                    college.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                // Validate password
+                const password = document.getElementById('password');
+                const requirements = checkPasswordStrength(password.value);
+                if (password.value.length === 0 || Object.values(requirements).includes(false)) {
+                    document.getElementById('passwordError').textContent = 'Password must meet all requirements';
+                    password.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                // Validate confirm password
+                const confirmPassword = document.getElementById('confirmPassword');
+                if (confirmPassword.value !== password.value) {
+                    document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+                    confirmPassword.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                // Validate terms
+                const terms = document.getElementById('terms');
+                if (!terms.checked) {
+                    document.getElementById('termsError').textContent = 'You must agree to the terms and conditions';
+                    terms.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                if (isValid) {
+                    // Simulate registration process
+                    console.log('Registration form submitted');
+                    // In a real application, you would make an API call here
+                    
+                    // Show success message
+                    alert('Registration successful! Please check your email for verification.');
+                    
+                    // Redirect to login page
+                    window.location.href = 'login.html';
+                }
+            });
+            
+            // Real-time validation
+            const formInputs = registerForm.querySelectorAll('.form-control');
+            formInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.value.trim()) {
+                        this.classList.remove('is-invalid');
+                    }
+                });
+            });
+            
+            document.getElementById('terms').addEventListener('change', function() {
+                if (this.checked) {
+                    this.classList.remove('is-invalid');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

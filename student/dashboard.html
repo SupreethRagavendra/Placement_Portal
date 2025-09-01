@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - College Placement Training Portal</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #007bff;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --dark: #343a40;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .sidebar {
+            background-color: var(--dark);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 60px;
+            width: 250px;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.8rem 1rem;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left-color: var(--primary);
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        
+        .stats-card {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            transition: transform 0.2s;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stats-card .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .recent-test {
+            border-left: 4px solid var(--primary);
+        }
+        
+        .progress {
+            height: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                margin-left: -250px;
+            }
+            
+            .sidebar.active {
+                margin-left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .main-content.active {
+                margin-left: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="px-3 py-4">
+            <h4 class="text-center mb-4">Placement Portal</h4>
+            
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="categories.html" class="nav-link">
+                        <i class="fas fa-layer-group"></i> Test Categories
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="test.html" class="nav-link">
+                        <i class="fas fa-edit"></i> Practice Tests
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="results.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i> Results
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i> Analytics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                </li>
+                <li class="nav-item mt-4">
+                    <a href="../login.html" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg mb-4">
+            <div class="container-fluid">
+                <button class="btn btn-sm btn-outline-secondary d-lg-none" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="d-flex align-items-center">
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://via.placeholder.com/40" alt="User" width="40" height="40" class="rounded-circle me-2">
+                            <span>John Doe</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUser">
+                            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="../login.html">Sign out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Welcome Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">Welcome back, John!</h2>
+                    <a href="categories.html" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Start New Test
+                    </a>
+                </div>
+                <p class="text-muted">Here's your performance overview</p>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card stats-card h-100">
+                    <div class="card-body">
+                        <div class="card-icon bg-primary bg-opacity-10 text-primary">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h5 class="card-title">Tests Taken</h5>
+                        <h2 class="card-text fw-bold">24</h2>
+                        <p class="text-muted small">+5 from last week</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card stats-card h-100">
+                    <div class="card-body">
+                        <div class="card-icon bg-success bg-opacity-10 text-success">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5 class="card-title">Average Score</h5>
+                        <h2 class="card-text fw-bold">78%</h2>
+                        <p class="text-muted small">+3% from last week</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card stats-card h-100">
+                    <div class="card-body">
+                        <div class="card-icon bg-warning bg-opacity-10 text-warning">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h5 class="card-title">Rank</h5>
+                        <h2 class="card-text fw-bold">#12</h2>
+                        <p class="text-muted small">Out of 250 students</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card stats-card h-100">
+                    <div class="card-body">
+                        <div class="card-icon bg-info bg-opacity-10 text-info">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h5 class="card-title">Time Spent</h5>
+                        <h2 class="card-text fw-bold">36h</h2>
+                        <p class="text-muted small">This month</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Tests and Quick Access -->
+        <div class="row">
+            <!-- Recent Tests -->
+            <div class="col-lg-8 mb-4">
+                <div class="card">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Recent Tests</h5>
+                        <a href="results.html" class="btn btn-sm btn-outline-primary">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item d-flex justify-content-between align-items-center py-3 recent-test">
+                                <div>
+                                    <h6 class="mb-1">Aptitude Test - Advanced</h6>
+                                    <p class="mb-0 text-muted small">Completed: Today, 10:30 AM</p>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-success rounded-pill">85%</span>
+                                    <p class="mb-0 text-muted small">45/50 questions</p>
+                                </div>
+                            </div>
+                            
+                            <div class="list-group-item d-flex justify-content-between align-items-center py-3 recent-test">
+                                <div>
+                                    <h6 class="mb-1">Coding Test - Python</h6>
+                                    <p class="mb-0 text-muted small">Completed: Yesterday, 4:15 PM</p>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-warning rounded-pill">72%</span>
+                                    <p class="mb-0 text-muted small">36/50 questions</p>
+                                </div>
+                            </div>
+                            
+                            <div class="list-group-item d-flex justify-content-between align-items-center py-3 recent-test">
+                                <div>
+                                    <h6 class="mb-1">Technical MCQs - Data Structures</h6>
+                                    <p class="mb-0 text-muted small">Completed: Aug 28, 2023</p>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-primary rounded-pill">90%</span>
+                                    <p class="mb-0 text-muted small">45/50 questions</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Access -->
+            <div class="col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Quick Access</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="categories.html" class="btn btn-outline-primary btn-lg text-start">
+                                <i class="fas fa-brain me-2"></i> Aptitude Tests
+                            </a>
+                            <a href="categories.html" class="btn btn-outline-success btn-lg text-start">
+                                <i class="fas fa-code me-2"></i> Coding Practice
+                            </a>
+                            <a href="categories.html" class="btn btn-outline-info btn-lg text-start">
+                                <i class="fas fa-cogs me-2"></i> Technical MCQs
+                            </a>
+                            <a href="analytics.html" class="btn btn-outline-warning btn-lg text-start">
+                                <i class="fas fa-chart-pie me-2"></i> Performance Analytics
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress Overview -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Category Progress</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Aptitude</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Coding</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Technical MCQs</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar toggle for mobile
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                mainContent.classList.toggle('active');
+            });
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickInsideToggle = sidebarToggle.contains(event.target);
+                
+                if (window.innerWidth < 768 && 
+                    !isClickInsideSidebar && 
+                    !isClickInsideToggle && 
+                    sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                    mainContent.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
